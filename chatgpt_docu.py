@@ -4,6 +4,10 @@ from docx import Document
 from docx.shared import Inches
 import openai
 import credentials
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+startfile = os.path.join(script_dir, "template.docx")
 
 #%%
 # --- CHATGPT PROMPT  ---
@@ -21,7 +25,7 @@ def gpt_docu(prompt):
     try:
       print(f"----- {prompt} -----")
       completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=[
           {"role": "user", "content": prompt}
         ]
@@ -55,7 +59,7 @@ except:
 #%%
 # --- CREATE DOCUMENT ---
 # Open template document `hello_world.docx`
-document = Document('template.docx')
+document = Document(startfile)
 # Clear document
 document._body.clear_content()
 
