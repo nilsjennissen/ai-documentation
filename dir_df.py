@@ -1,4 +1,3 @@
-
 #%%
 from pathlib import Path
 import pandas as pd
@@ -95,3 +94,4 @@ def get_tree_df(path, criteria=None):
 path = input("example path -> PycharmProjects/simulations:")
 dir_tree = get_tree_df(path)
 print(dir_tree)
+
