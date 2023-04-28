@@ -1,11 +1,7 @@
-# --- MANUAL TEMPLATE ---
-# Import libraries
-import openai
-import credentials
-from pathlib import Path
 
 #%%
-# --- DIRECTORY TREE  ---
+from pathlib import Path
+import pandas as pd
 
 class DisplayablePath(object):
     display_filename_prefix_middle = '├──'
@@ -84,62 +80,18 @@ class DisplayablePath(object):
         return ''.join(reversed(parts))
 
 
-# Call the function with the path to the directory you want to print
-def print_tree(path, criteria=None):
-    paths = DisplayablePath.make_tree(Path.home() / path, criteria=criteria)
+def get_tree_df(path, criteria=None):
+    paths = list(DisplayablePath.make_tree(Path.home() / path, criteria=criteria))
+    tree_list = []
     for path in paths:
-        # Save the output to a text string with linebreaks to use later
-        tree = '\n'.join([path.displayable() for path in paths])
-    return tree
+        depth = path.depth
+        name = path.displayname
+        path_str = str(path.path)
+        is_dir = path.path.is_dir()
+        tree_list.append((depth, name, path_str, is_dir))
+    df = pd.DataFrame(tree_list, columns=['depth', 'name', 'path', 'is_dir'])
+    return df
 
-path = input("\nWhere are the documents? PycharmProjects/simulations: ")
-
-structure = print_tree(path)
-
-# --- CHATGPT PROMPT  ---
-
-openai.api_key = credentials.OpenAI_Key
-
-description = input("\nWrite a little about the project: ")
-
-prompt = f'''Write an interesting README.md with the structure: \n
-# 🧭 Project Overview 
-## ⏱ Estimated time needed: 3h
-## 🚧 Prerequisites
-## 🎛 Project Setup
-## 📦 Project Structure
-## 🗄️ Data
-## 📚 References
-## 🏆 Conclusion
-## 🤝 Contributions
-
-The project is about: {description}
-In the project structure, use the predefined dir_tree: {structure}
-'''
-
-def gpt_docu(prompt):
-    try:
-      print(f"Prompt: {prompt}")
-      completion = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-          {"role": "user", "content": prompt}
-        ]
-      )
-
-      answer = completion.choices[0].message.content
-      for i in range(2):
-          try:
-              if answer[0] == "\n":
-                  answer = answer[1:]
-          except:
-              pass
-
-
-      return answer
-    except:
-      print("Something went wrong. Please try again.")
-
-
-answer = gpt_docu(prompt)
-print(answer)
+path = input("example path -> PycharmProjects/simulations:")
+dir_tree = get_tree_df(path)
+print(dir_tree)

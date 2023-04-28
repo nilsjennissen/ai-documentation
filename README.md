@@ -35,7 +35,7 @@ To set up the project, follow these steps:
    ```
 4. Run one of the applications:
    ```
-   python ai_readmy.py 
+   python ai_readme.py 
    python chatgpt.py
    ```
 

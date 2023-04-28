@@ -1,11 +1,5 @@
-# --- MANUAL TEMPLATE ---
-# Import libraries
-import openai
-import credentials
+# %%
 from pathlib import Path
-
-#%%
-# --- DIRECTORY TREE  ---
 
 class DisplayablePath(object):
     display_filename_prefix_middle = '├──'
@@ -88,58 +82,9 @@ class DisplayablePath(object):
 def print_tree(path, criteria=None):
     paths = DisplayablePath.make_tree(Path.home() / path, criteria=criteria)
     for path in paths:
-        # Save the output to a text string with linebreaks to use later
-        tree = '\n'.join([path.displayable() for path in paths])
-    return tree
+        print(path.displayable())
 
-path = input("\nWhere are the documents? PycharmProjects/simulations: ")
+path = input("example path -> PycharmProjects/simulations:")
 
-structure = print_tree(path)
-
-# --- CHATGPT PROMPT  ---
-
-openai.api_key = credentials.OpenAI_Key
-
-description = input("\nWrite a little about the project: ")
-
-prompt = f'''Write an interesting README.md with the structure: \n
-# 🧭 Project Overview 
-## ⏱ Estimated time needed: 3h
-## 🚧 Prerequisites
-## 🎛 Project Setup
-## 📦 Project Structure
-## 🗄️ Data
-## 📚 References
-## 🏆 Conclusion
-## 🤝 Contributions
-
-The project is about: {description}
-In the project structure, use the predefined dir_tree: {structure}
-'''
-
-def gpt_docu(prompt):
-    try:
-      print(f"Prompt: {prompt}")
-      completion = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-          {"role": "user", "content": prompt}
-        ]
-      )
-
-      answer = completion.choices[0].message.content
-      for i in range(2):
-          try:
-              if answer[0] == "\n":
-                  answer = answer[1:]
-          except:
-              pass
-
-
-      return answer
-    except:
-      print("Something went wrong. Please try again.")
-
-
-answer = gpt_docu(prompt)
-print(answer)
+printed = print_tree(path)
+printed
