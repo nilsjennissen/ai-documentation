@@ -113,8 +113,11 @@ prompt = f'''Write an interesting README.md with the structure: \n
 ## 🏆 Conclusion
 ## 🤝 Contributions
 
-The project is about: {description}
-In the project structure, use the predefined dir_tree: {structure}
+The project is about: 
+{description}
+
+In the project structure, use the predefined dir_tree: 
+{structure}
 '''
 
 def gpt_docu(prompt):
