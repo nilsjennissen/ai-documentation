@@ -35,7 +35,7 @@ print(answer)
 #%%
 # --- CREATE DOCUMENT ---
 # Open template document `hello_world.docx`
-document = Document('template.docx')
+document = Document('docs/template.docx')
 
 # Clear document
 document._body.clear_content()
@@ -47,4 +47,4 @@ document.add_heading(header, 1)
 p = document.add_paragraph(answer)
 
 # Save document
-document.save('doc2.docx')
+document.save('docs/doc2.docx')
