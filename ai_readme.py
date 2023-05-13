@@ -84,8 +84,10 @@ class DisplayablePath(object):
         return ''.join(reversed(parts))
 
 
-# Call the function with the path to the directory you want to print
-def print_tree(path, criteria=None):
+# Call the function with the path to the directory you want to print and
+def tree_with_exception(path, criteria=None):
+    if criteria is None:
+        criteria = lambda path: not (path.name.startswith('.') or path.name == '__pycache__' or path.name == 'venv')
     paths = DisplayablePath.make_tree(Path.home() / path, criteria=criteria)
     for path in paths:
         # Save the output to a text string with linebreaks to use later
@@ -94,7 +96,7 @@ def print_tree(path, criteria=None):
 
 path = input("\nWhere are the documents? PycharmProjects/simulations: ")
 
-structure = print_tree(path)
+structure = tree_with_exception(path)
 
 # --- CHATGPT PROMPT  ---
 
