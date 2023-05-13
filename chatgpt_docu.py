@@ -7,7 +7,7 @@ import credentials
 import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-startfile = os.path.join(script_dir, "template.docx")
+startfile = os.path.join(script_dir, "docs/template.docx")
 
 #%%
 # --- CHATGPT PROMPT  ---
